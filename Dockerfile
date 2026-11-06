@@ -13,6 +13,7 @@ WORKDIR /var/www/html
 COPY . .
 
 
+
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts \
     && mkdir -p storage/framework/cache/data \
         storage/framework/sessions \
@@ -20,7 +21,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
         storage/logs \
         bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
+    && chmod -R 775 storage bootstrap/cache \
+    && php artisan package:discover --ansi
+
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
